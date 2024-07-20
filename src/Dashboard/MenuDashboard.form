@@ -187,7 +187,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Liberation Sans" size="20" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Input Jurusan"/>
+            <Property name="text" type="java.lang.String" value="Input Siswa"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton5ActionPerformed"/>

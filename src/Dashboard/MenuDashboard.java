@@ -7,7 +7,7 @@ package Dashboard;
 import javax.swing.JOptionPane;
 import Autentifikasi.login;
 import Administrasi.dataPegawai;
-import Administrasi.dataJurusan;
+import Administrasi.dataSiswa;
 import Administrasi.dataUniversitas;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -111,7 +111,7 @@ public class MenuDashboard extends javax.swing.JFrame {
 
         jButton5.setBackground(new java.awt.Color(153, 255, 153));
         jButton5.setFont(new java.awt.Font("Liberation Sans", 1, 20)); // NOI18N
-        jButton5.setText("Input Jurusan");
+        jButton5.setText("Input Siswa");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -226,8 +226,9 @@ public class MenuDashboard extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        dataJurusan form_jurusan = new dataJurusan();
-        form_jurusan.setVisible(true);
+//        dataJurusan form_jurusan = new dataJurusan();
+        dataSiswa form_siswa = new dataSiswa();
+        form_siswa.setVisible(true);
         this.dispose();
         return;
     }//GEN-LAST:event_jButton5ActionPerformed
