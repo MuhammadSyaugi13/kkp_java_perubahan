@@ -1,2 +1,3 @@
-build/*
-build
+# NetBeans specific
+nbproject/
+build/

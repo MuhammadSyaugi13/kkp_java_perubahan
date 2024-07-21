@@ -19,14 +19,26 @@ public class dataSiswa extends javax.swing.JFrame {
     private Connection conn = new Koneksi().connect();
     private DefaultTableModel tabmode;
     private int id_user_login = new login().getIdUserLogin();
+    private String[] daftarKelas = {"10 A", "10 B", "10 C", "10 D", "10 E"};
 
     /**
      * Creates new form dataSiswa
      */
+    
     public dataSiswa() {
         initComponents();
         dataTable();
+        setDefaultValue();
         
+    }
+    
+     private void setDefaultValue(){
+        
+        // set select item mata pelajaran
+        for (int i = 0; i < daftarKelas.length; i++) {
+            //System.out.println("Element at index " + i + ": " + mapel[i]);
+            kelas.addItem(daftarKelas[i]);
+        }
     }
     
     //membuat datatable siswa    
@@ -261,7 +273,7 @@ public class dataSiswa extends javax.swing.JFrame {
 
         jLabel5.setText("Alamat");
 
-        kelas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10 A", "10 B", "10 C", "10 D", "10 E", "11 A", "11 B", "11 C", "11 D", "12 A", "12 B", "12 C", "12 D" }));
+        kelas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pilih Satu" }));
 
         alamat.setColumns(20);
         alamat.setRows(5);

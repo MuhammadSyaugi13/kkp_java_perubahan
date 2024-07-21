@@ -14,64 +14,104 @@ import Dashboard.MenuDashboard;
  *
  * @author mosyq
  */
-public class dataAdmin extends javax.swing.JFrame {
+public class dataWaliKelas extends javax.swing.JFrame {
 
     private Connection conn = new Koneksi().connect();
     private DefaultTableModel tabmode;
+    private DefaultTableModel tabelModelKelas;
+    private String[] kelas = {"10 A", "10 B", "10 C", "10 D", "10 E"};
+
 
     /**
      * Creates new form dataSiswa
      */
-    public dataAdmin() {
+    public dataWaliKelas() {
         initComponents();
         dataTable();
+        setDefaultValue();
+//        JOptionPane.showMessageDialog(null, mata_pelajaran.getSelectedItem().toString());
     }
 
     //membuat datatable Pegawai
     public void dataTable() {
-        Object[] Baris = {"id", "No", "Username", "Nama", "Jabatan", "Alamat"};
+        Object[] Baris = {"id", "No", "Username", "Nama", "Kelas"};
         tabmode = new DefaultTableModel(null, Baris);
-        tabelPegawai.setModel(tabmode);
-        tabelPegawai.removeColumn(tabelPegawai.getColumnModel().getColumn(0));
+        tabelWalikelas.setModel(tabmode);
+        tabelWalikelas.removeColumn(tabelWalikelas.getColumnModel().getColumn(0));
 
-        String sql = "select * from users join pegawai on users.id=pegawai.user_id";
+        String sql = "select * from users join walikelas on users.id=walikelas.user_id";
         try {
             java.sql.Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             Integer no = 1;
             while (hasil.next()) {
                 String b = hasil.getString("users.username");
-                String c = hasil.getString("pegawai.nama");
-                String e = hasil.getString("pegawai.jabatan");
-                String f = hasil.getString("pegawai.alamat");
+                String c = hasil.getString("walikelas.nama");
+                String d = hasil.getString("walikelas.kelas");
                 String nomor = no.toString();
                 Integer id_user = hasil.getInt("users.id");
-                String[] data = {id_user.toString(), nomor, b, c, e, f};
+                String[] data = {id_user.toString(), nomor, b, c, d};
                 tabmode.addRow(data);
                 no++;
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Gagal mengabil database: " + e);
+            System.out.println(e);
         }
     }
 
+    //set nilai default
+    private void setDefaultValue(){
+        
+        // set select item mata pelajaran
+        for (int i = 0; i < kelas.length; i++) {
+            //System.out.println("Element at index " + i + ": " + mapel[i]);
+            cb_kelas.addItem(kelas[i]);
+        }
+    }
+    
     //simpan data pegawai
     private void save() {
-        String sql = "insert into users(username, password,jabatan, level) values (?,?,?,?)";
+        
+        String sql = "insert into users(username, password, level) values (?,?,?)";
         try {
             PreparedStatement stat = conn.prepareStatement(sql,
                     PreparedStatement.RETURN_GENERATED_KEYS);
-            stat.setString(1, username_pegawai.getText());
-            stat.setString(2, password_pegawai.getText());
-            stat.setString(3, "Tata Usaha");
-            stat.setString(4, "admin");
-
+            stat.setString(1, username_walikelas.getText());
+            stat.setString(2, password_walikelas.getText());
+            stat.setString(3, "walikelas");
 
             int rowsInserted = stat.executeUpdate();
+            if (rowsInserted > 0) {
+                ResultSet generatedKeys = stat.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    String sql_guru_mapel = "insert into walikelas(user_id, nama, kelas) "
+                            + "values (?,?,?)";
+                    int id_user = generatedKeys.getInt(1);
+                    
+                    // mata pelajaran
+                    String mataPelajaran = cb_kelas.getSelectedItem().toString();
+                    
+                    try {
+                        PreparedStatement stat_guru_mapel = conn.prepareStatement(sql_guru_mapel);
+                        stat_guru_mapel.setString(2, nama_walikelas.getText());
+                        stat_guru_mapel.setString(3, mataPelajaran);
+                        stat_guru_mapel.setInt(1, id_user);
+                        
+                        stat_guru_mapel.executeUpdate();
+                    } catch (SQLException e) {
+                        JOptionPane.showConfirmDialog(null, "data walikelas gagal disimpan " + e);
+                        System.out.println("data pegawai gagal disimpan" + e);
+                    }
+
+                    JOptionPane.showConfirmDialog(null,
+                            "Data berhasil dimasukkan ke database dengan ID: " + id_user);
+                }
+            }
 
             JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
             kosong();
-            username_pegawai.requestFocus();
+            username_walikelas.requestFocus();
             dataTable();
         } catch (SQLException e) {
             JOptionPane.showConfirmDialog(null, "data user gagal disimpan " + e);
@@ -83,25 +123,27 @@ public class dataAdmin extends javax.swing.JFrame {
     private void edit() {
         try{
             // ubah data tabel users
-            String sql = "Update users set username=?, password=?, level=admin"
+            String sql = "Update users set username=?, password=?, level=?"
                     + " where id=?";
-            if (password_pegawai.getText().equals("")){
+            if (password_walikelas.getText().equals("")){
                 sql = "Update users set username=?, level=?"
                     + " where id=?";
             }
             PreparedStatement stat_user= conn.prepareStatement(sql);
             
             // id user yang akan diubah
-            int bar = tabelPegawai.getSelectedRow();
+            int bar = tabelWalikelas.getSelectedRow();
             String id_user = tabmode.getValueAt(bar, 0).toString();
             int id = Integer.parseInt(id_user);
             
-            if (password_pegawai.getText().equals("")){
-                stat_user.setString(1, username_pegawai.getText());
+            if (password_walikelas.getText().equals("")){
+                stat_user.setString(1, username_walikelas.getText());
+                stat_user.setString(2, cb_kelas.getSelectedItem().toString());
                 stat_user.setInt(3, id);
             }else{
-                stat_user.setString(1, username_pegawai.getText());
-                stat_user.setString(2, password_pegawai.getText());
+                stat_user.setString(1, username_walikelas.getText());
+                stat_user.setString(2, password_walikelas.getText());
+                stat_user.setString(3, cb_kelas.getSelectedItem().toString());
                 stat_user.setInt(4, id);
             }
             
@@ -113,9 +155,8 @@ public class dataAdmin extends javax.swing.JFrame {
                     + " where user_id=?";
             PreparedStatement stat_pegawai= conn.prepareStatement(sql_pegawai);
             
-            stat_pegawai.setString(1, nama_pegawai.getText());
-            stat_pegawai.setString(2, "Tata Usaha");
-            stat_pegawai.setString(3, alamat_pegawai.getText());
+            stat_pegawai.setString(1, nama_walikelas.getText());
+            stat_pegawai.setString(2, "Guru Pelajaran");
             stat_pegawai.setInt(4, id);
             
             stat_pegawai.executeUpdate();
@@ -123,7 +164,7 @@ public class dataAdmin extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(null, "Data Berhasil diubah");
             kosong();
-            username_pegawai.requestFocus();
+            username_walikelas.requestFocus();
             dataTable();
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null, "Data Gagal diubah" +e);
@@ -134,7 +175,7 @@ public class dataAdmin extends javax.swing.JFrame {
     private void hapus(){
         try{
             // id user yang akan diubah
-            int bar = tabelPegawai.getSelectedRow();
+            int bar = tabelWalikelas.getSelectedRow();
             String id_user = tabmode.getValueAt(bar, 0).toString();
             int id = Integer.parseInt(id_user);
             
@@ -145,16 +186,16 @@ public class dataAdmin extends javax.swing.JFrame {
             stat_user.executeUpdate();
             
             // hapus pegawai
-            String sql_pegawai = "delete from pegawai where user_id="+id;
-            PreparedStatement stat_pegawai= conn.prepareStatement(sql_pegawai);
+            String sql_walikelas = "delete from walikelas where user_id="+id;
+            PreparedStatement stat_walikelas= conn.prepareStatement(sql_walikelas);
             
-            stat_pegawai.executeUpdate();
+            stat_walikelas.executeUpdate();
             
             
             
             JOptionPane.showMessageDialog(null, "Data Berhasil dihapus");
             kosong();
-            username_pegawai.requestFocus();
+            username_walikelas.requestFocus();
             dataTable();
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null, "Data Gagal dihapus" +e);
@@ -164,28 +205,34 @@ public class dataAdmin extends javax.swing.JFrame {
     //ambil data pada tabel
     private void data(){
         //ambil data dari tabel
-        int bar = tabelPegawai.getSelectedRow();
+        int bar = tabelWalikelas.getSelectedRow();
         String a = tabmode.getValueAt(bar, 0).toString(); //id
         String b = tabmode.getValueAt(bar, 1).toString(); // no
         String c = tabmode.getValueAt(bar, 2).toString(); // username
         String d = tabmode.getValueAt(bar, 3).toString(); // nama
-        String g = tabmode.getValueAt(bar, 4).toString(); // alamat
+        String e = tabmode.getValueAt(bar, 4).toString(); // level
+        String f = tabmode.getValueAt(bar, 5).toString(); // jabatan
+        String g = tabmode.getValueAt(bar, 6).toString(); // alamat
         
         //set data ke form
-        username_pegawai.setText(c);
-        nama_pegawai.setText(d);
-        password_pegawai.setText("");
-        alamat_pegawai.setText(g);
+        username_walikelas.setText(c);
+        nama_walikelas.setText(d);
+        password_walikelas.setText("");
         
         int index_level = 0;
+        if(e.equals("guru")){
+            index_level = 1;
+        }
+        
+        cb_kelas.setSelectedIndex(index_level);
     }
 
     //kosongkan input data siswa    
     protected void kosong() {
-        username_pegawai.setText("");
-        nama_pegawai.setText("");
-        alamat_pegawai.setText("");
-        password_pegawai.setText("");
+        username_walikelas.setText("");
+        nama_walikelas.setText("");
+        cb_kelas.setSelectedIndex(0);
+        password_walikelas.setText("");
         
 
     }
@@ -205,15 +252,13 @@ public class dataAdmin extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        username_pegawai = new javax.swing.JTextField();
-        nama_pegawai = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        alamat_pegawai = new javax.swing.JTextArea();
+        username_walikelas = new javax.swing.JTextField();
+        nama_walikelas = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tabelPegawai = new javax.swing.JTable();
-        tombol_edit = new javax.swing.JButton();
-        password_pegawai = new javax.swing.JPasswordField();
+        tabelWalikelas = new javax.swing.JTable();
+        password_walikelas = new javax.swing.JPasswordField();
+        cb_kelas = new javax.swing.JComboBox<String>();
+        jLabel7 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -233,9 +278,11 @@ public class dataAdmin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 102, 102));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setFont(new java.awt.Font("Agency FB", 0, 24)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jLabel1.setText("Data Admin");
+        jLabel1.setText("Data Wali Kelas");
 
         jLabel2.setText("Username");
 
@@ -243,49 +290,36 @@ public class dataAdmin extends javax.swing.JFrame {
 
         jLabel4.setText("Password");
 
-        jLabel5.setText("Alamat");
-
-        alamat_pegawai.setColumns(20);
-        alamat_pegawai.setRows(5);
-        jScrollPane1.setViewportView(alamat_pegawai);
-
-        tabelPegawai.setModel(new javax.swing.table.DefaultTableModel(
+        tabelWalikelas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "id", "No", "Username", "Nama", "Alamat"
+                "id", "No", "Username", "Nama", "Kelas", "Alamat"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        tabelPegawai.addMouseListener(new java.awt.event.MouseAdapter() {
+        tabelWalikelas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabelPegawaiMouseClicked(evt);
+                tabelWalikelasMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(tabelPegawai);
+        jScrollPane3.setViewportView(tabelWalikelas);
 
-        tombol_edit.setText("Edit");
-        tombol_edit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tombol_editMouseClicked(evt);
-            }
-        });
-        tombol_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tombol_editActionPerformed(evt);
-            }
-        });
+        cb_kelas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pilih Satu" }));
+        cb_kelas.setToolTipText("");
+
+        jLabel7.setText("Kelas");
 
         jButton2.setText("Simpan");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -323,93 +357,79 @@ public class dataAdmin extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(197, 197, 197)
-                        .addComponent(jLabel1))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel7))
+                        .addGap(72, 72, 72)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(cb_kelas, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(password_walikelas, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(username_walikelas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                            .addComponent(nama_walikelas, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jButton2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(tombol_edit)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton3))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(323, 323, 323)
-                                        .addComponent(jButton1))
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(username_pegawai))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel5)
-                                        .addComponent(jLabel3))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
-                                        .addComponent(password_pegawai)
-                                        .addComponent(nama_pegawai)))))))
-                .addGap(0, 29, Short.MAX_VALUE))
+                                .addComponent(jButton2)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton3))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(333, 333, 333)
+                                .addComponent(jButton1)))
+                        .addGap(0, 30, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(183, 183, 183))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton1)
-                .addGap(34, 34, 34)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel1)
-                .addGap(27, 27, 27)
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(username_walikelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(nama_walikelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4))
+                    .addComponent(password_walikelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(username_pegawai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                    .addComponent(cb_kelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(nama_pegawai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(password_pegawai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(tombol_edit)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addComponent(jButton2))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tombol_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tombol_editActionPerformed
+    private void tabelWalikelasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelWalikelasMouseClicked
         // TODO add your handling code here:
-        edit();
-    }//GEN-LAST:event_tombol_editActionPerformed
-
-    private void tombol_editMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tombol_editMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tombol_editMouseClicked
-
-    private void tabelPegawaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelPegawaiMouseClicked
-        // TODO add your handling code here:
-        data();
+//        data();
         
-    }//GEN-LAST:event_tabelPegawaiMouseClicked
+    }//GEN-LAST:event_tabelWalikelasMouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
@@ -453,14 +473,18 @@ public class dataAdmin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(dataAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(dataWaliKelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(dataAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(dataWaliKelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(dataAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(dataWaliKelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(dataAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(dataWaliKelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -469,13 +493,13 @@ public class dataAdmin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new dataAdmin().setVisible(true);
+                new dataWaliKelas().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea alamat_pegawai;
+    private javax.swing.JComboBox<String> cb_kelas;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -483,15 +507,13 @@ public class dataAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField nama_pegawai;
-    private javax.swing.JPasswordField password_pegawai;
-    private javax.swing.JTable tabelPegawai;
-    private javax.swing.JButton tombol_edit;
-    private javax.swing.JTextField username_pegawai;
+    private javax.swing.JTextField nama_walikelas;
+    private javax.swing.JPasswordField password_walikelas;
+    private javax.swing.JTable tabelWalikelas;
+    private javax.swing.JTextField username_walikelas;
     // End of variables declaration//GEN-END:variables
 }

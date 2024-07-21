@@ -69,7 +69,7 @@ public class MenuGuru extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(255, 51, 0));
         jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 28)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Dashboard Menu Guru");
+        jLabel1.setText("Dashboard Menu Walikelas");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -217,6 +217,7 @@ public class MenuGuru extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

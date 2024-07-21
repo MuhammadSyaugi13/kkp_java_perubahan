@@ -9,6 +9,7 @@ import java.sql.Connection;
 import javax.swing.JOptionPane;
 import koneksi.Koneksi;
 import Dashboard.*;
+import GuruMataPelajaran.PenilaianSiswa;
 
 /**
  *
@@ -124,6 +125,7 @@ public class login extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -134,8 +136,10 @@ public class login extends javax.swing.JFrame {
         if (user.equals("") || password.equals("")) {
             JOptionPane.showMessageDialog(null, "Mohon lengkapi data anda !");
         } else {
-            String sql = "SELECT * FROM `users` "
+            String sql = "SELECT * FROM users "
                     + "WHERE users.username='" + user + "' AND users.password='" + password + "'";
+            
+            System.out.println(sql);
             try {
                 java.sql.Statement stat = conn.createStatement();
                 ResultSet rs = stat.executeQuery(sql);
@@ -163,6 +167,13 @@ public class login extends javax.swing.JFrame {
                             String pesan = "Anda telah berhasil login";
                             JOptionPane.showMessageDialog(null, pesan);
                             dashboardPegawai.setVisible(true);
+                            this.dispose();
+                            return;
+                        } else if (rs.getString("level").equals("guru_mapel")) {
+                            PenilaianSiswa penilaianSiswa = new PenilaianSiswa();
+                            String pesan = "Anda telah berhasil login";
+                            JOptionPane.showMessageDialog(null, pesan);
+                            penilaianSiswa.setVisible(true);
                             this.dispose();
                             return;
                         }

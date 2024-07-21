@@ -106,7 +106,7 @@ public class InputNilai extends javax.swing.JFrame {
             dataTable();
         }catch (SQLException e){
             JOptionPane.showConfirmDialog(null, "data gagal disimpan"+e);
-            }
+        }
     }
     
     //ubah data
