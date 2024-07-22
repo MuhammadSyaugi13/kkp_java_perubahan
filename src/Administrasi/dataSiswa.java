@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import koneksi.Koneksi;
 import Autentifikasi.login;
-import Dashboard.MenuGuru;
+import Dashboard.*;
 
 /**
  *
@@ -410,6 +410,7 @@ public class dataSiswa extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -438,8 +439,8 @@ public class dataSiswa extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        MenuGuru menuGuru = new MenuGuru();
-        menuGuru.setVisible(true);
+        MenuDashboard menuDashboard = new MenuDashboard();
+        menuDashboard.setVisible(true);
         this.dispose();
         return;
     }//GEN-LAST:event_jButton4ActionPerformed

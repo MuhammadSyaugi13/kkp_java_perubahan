@@ -15,7 +15,7 @@ import koneksi.Koneksi;
  *
  * @author mosyq
  */
-public class PilihUniversitas extends javax.swing.JFrame {
+public class PilihUniversitasJurusan extends javax.swing.JFrame {
 
     private Connection conn = new Koneksi().connect();
     private DefaultTableModel tabmode;
@@ -24,7 +24,7 @@ public class PilihUniversitas extends javax.swing.JFrame {
     /**
      * Creates new form PilihUniversitas
      */
-    public PilihUniversitas() {
+    public PilihUniversitasJurusan() {
         initComponents();
         setComboBox("select * from universitas", "setIndex");
         cekPilihanSiswa();
@@ -32,7 +32,10 @@ public class PilihUniversitas extends javax.swing.JFrame {
     
     //cek pilihan siswa
     private void cekPilihanSiswa(){
-        String sql_pilihan = "select * from pilihan_universitas where id_siswa="+id_user_login;
+        String sql_pilihan = "select pilihan_universitas.*, universitas.nama as nama_universitas, jurusan.jurusan as nama_jurusan from pilihan_universitas "
+                + "join universitas on universitas.id=pilihan_universitas.id_universitas "
+                + "join jurusan on jurusan.id=pilihan_universitas.id_jurusan "
+                + "where id_siswa="+id_user_login;
 //        String sql_pilihan = "select * from pilihan_universitas where id="+1;
         
         try{
@@ -43,8 +46,19 @@ public class PilihUniversitas extends javax.swing.JFrame {
 //                String sql = "select * from universitas where id_siswa="+id_user_login;
                 opsi = "setIndex";
                 sudah_memilih = true;
-                JOptionPane.showMessageDialog(null, sudah_memilih);
-                String sql = "select * from universitas";
+//                JOptionPane.showMessageDialog(null, hasil.getString("nama_universitas"));
+                String namaUniversitas1 = hasil.getString("nama_universitas");
+                String namaJurusan1 = hasil.getString("nama_jurusan");
+                universitas1.setSelectedItem(namaUniversitas1);
+                jurusan1.setSelectedItem(namaJurusan1);
+                
+                hasil.next();
+                System.out.println("namaUniversitas2");
+                System.out.println(hasil.getString("nama_universitas"));
+                String namaUniversitas2 = hasil.getString("nama_universitas");
+                String namaJurusan2 = hasil.getString("nama_jurusan");
+                universitas2.setSelectedItem(namaUniversitas2);
+                jurusan2.setSelectedItem(namaJurusan2);
 //                setComboBox(sql, opsi);
             }
             
@@ -156,7 +170,7 @@ public class PilihUniversitas extends javax.swing.JFrame {
                 java.sql.Statement stat_jurusan = conn.createStatement();
                 ResultSet hasil_jurusan = stat_jurusan.executeQuery(sql_jurusan);
                 while(hasil_jurusan.next()){
-                    jurusan1.addItem(hasil_jurusan.getString("jurusan"));
+                    jurusan1.addItem(hasil_jurusan.getString("jurusan")+"-"+hasil_jurusan.getString("id"));
                 }
             }catch(Exception e){
                 JOptionPane.showMessageDialog(null, "data gagal mengambil data jurusan "+e);
@@ -189,7 +203,7 @@ public class PilihUniversitas extends javax.swing.JFrame {
                 java.sql.Statement stat_jurusan = conn.createStatement();
                 ResultSet hasil_jurusan = stat_jurusan.executeQuery(sql_jurusan);
                 while(hasil_jurusan.next()){
-                    jurusan2.addItem(hasil_jurusan.getString("jurusan"));
+                    jurusan2.addItem(hasil_jurusan.getString("jurusan") +"-"+ hasil_jurusan.getString("id"));
                 }
             }catch(Exception e){
                 JOptionPane.showConfirmDialog(null, "data gagal mengambil data jurusan "+e);
@@ -233,15 +247,18 @@ public class PilihUniversitas extends javax.swing.JFrame {
             idUnivPilihan1=univs[0];
             idUnivPilihan2=univs[1];
         }catch(Exception e){
-            JOptionPane.showConfirmDialog(null, "data gagal mengambil data universitas "+e);
+            JOptionPane.showConfirmDialog(null, "1 data gagal mengambil data universitas "+e);
+            System.out.println("1data gagal mengambil data universitas "+e);
         }
         
         //get ./ universitas
         
         //get jurusan
+        String idJurusan1 = jurusanPilihan1.split("-")[1];
+        String idJurusan2 = jurusanPilihan2.split("-")[1];
         
-        String sql_jurusan = "select * from jurusan where jurusan.jurusan like '%"+jurusanPilihan1+"%' "
-                + "or jurusan.jurusan like '%"+jurusanPilihan2+"%'";
+        String sql_jurusan = "select * from jurusan where jurusan.id="+ idJurusan1
+                + " or jurusan.id="+idJurusan2;
 
         try{
             java.sql.Statement stat_jurusan = conn.createStatement();
@@ -256,7 +273,8 @@ public class PilihUniversitas extends javax.swing.JFrame {
             idJurusanPilihan1=allJurusan[0];
             idJurusanPilihan2=allJurusan[1];
         }catch(Exception e){
-            JOptionPane.showConfirmDialog(null, "data gagal mengambil data jurusan "+e);
+            JOptionPane.showConfirmDialog(null, "2 data gagal mengambil data jurusan "+e);
+            System.out.println("2 data gagal mengambil data jurusan "+e);
         }
         
         //./ get jurusan
@@ -280,7 +298,8 @@ public class PilihUniversitas extends javax.swing.JFrame {
                 stat_insert.executeUpdate();
 
             }catch(Exception e){
-                JOptionPane.showMessageDialog(null, "Data univ 1 jurusan 1 gagal Disimpan");
+                JOptionPane.showMessageDialog(null, "3 Data univ 1 jurusan 1 gagal Disimpan");
+                System.out.println("3 Data univ 1 jurusan 1 gagal Disimpan "+e);
             }
 
             //univ2
@@ -294,7 +313,8 @@ public class PilihUniversitas extends javax.swing.JFrame {
                 stat_insert.executeUpdate();
     //            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
             }catch(Exception e){
-                JOptionPane.showMessageDialog(null, "Data univ 2 jurusan 2 gagal Disimpan");
+                JOptionPane.showMessageDialog(null, "4 Data univ 2 jurusan 2 gagal Disimpan");
+                System.out.println("4 Data univ 2 jurusan 2 gagal Disimpan "+e);
             }
 
 
@@ -316,7 +336,8 @@ public class PilihUniversitas extends javax.swing.JFrame {
                 stat_insert.executeUpdate();
 
             }catch(Exception e){
-                JOptionPane.showMessageDialog(null, "Data univ 1 jurusan 1 gagal Disimpan");
+                JOptionPane.showMessageDialog(null, "5 Data univ 1 jurusan 1 gagal Disimpan");
+                System.out.println("5 Data univ 1 jurusan 1 gagal Disimpan "+e);
             }
 
             //univ2
@@ -333,7 +354,8 @@ public class PilihUniversitas extends javax.swing.JFrame {
                 stat_insert.executeUpdate();
     //            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan");
             }catch(Exception e){
-                JOptionPane.showMessageDialog(null, "Data univ 2 jurusan 2 gagal Disimpan");
+                JOptionPane.showMessageDialog(null, "6 Data univ 2 jurusan 2 gagal Disimpan");
+                System.out.println("6 Data univ 2 jurusan 2 gagal Disimpan "+e);
             }
 
 
@@ -363,22 +385,22 @@ public class PilihUniversitas extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        jComboBox3 = new javax.swing.JComboBox<String>();
+        jComboBox4 = new javax.swing.JComboBox<String>();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        universitas1 = new javax.swing.JComboBox<>();
-        jurusan1 = new javax.swing.JComboBox<>();
+        universitas1 = new javax.swing.JComboBox<String>();
+        jurusan1 = new javax.swing.JComboBox<String>();
         jLabel9 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        universitas2 = new javax.swing.JComboBox<>();
+        universitas2 = new javax.swing.JComboBox<String>();
         jLabel12 = new javax.swing.JLabel();
-        jurusan2 = new javax.swing.JComboBox<>();
+        jurusan2 = new javax.swing.JComboBox<String>();
         jButton2 = new javax.swing.JButton();
 
         jPanel2.setBackground(new java.awt.Color(153, 153, 153));
@@ -387,9 +409,9 @@ public class PilihUniversitas extends javax.swing.JFrame {
 
         jLabel6.setText("Jurusan 1");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -422,6 +444,7 @@ public class PilihUniversitas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         jButton1.setText("Menu Siswa");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -434,24 +457,29 @@ public class PilihUniversitas extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         jLabel2.setText("Universitas");
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         jLabel3.setText("Jurusan");
 
-        universitas1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Universitas" }));
+        universitas1.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
+        universitas1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pilih Universitas" }));
         universitas1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 universitas1ActionPerformed(evt);
             }
         });
 
-        jurusan1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Jurusan" }));
+        jurusan1.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
+        jurusan1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pilih Jurusan" }));
         jurusan1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jurusan1ActionPerformed(evt);
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         jLabel9.setText("Pilihan Universitas 1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -489,20 +517,25 @@ public class PilihUniversitas extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(153, 153, 153));
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         jLabel4.setText("Universitas");
 
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         jLabel11.setText("Jurusan");
 
-        universitas2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Universitas" }));
+        universitas2.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
+        universitas2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pilih Universitas" }));
         universitas2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 universitas2ActionPerformed(evt);
             }
         });
 
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         jLabel12.setText("Pilihan Universitas 2");
 
-        jurusan2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Jurusan" }));
+        jurusan2.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
+        jurusan2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pilih Jurusan" }));
         jurusan2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jurusan2ActionPerformed(evt);
@@ -542,6 +575,7 @@ public class PilihUniversitas extends javax.swing.JFrame {
                 .addGap(25, 25, 25))
         );
 
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         jButton2.setText("Simpan");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -554,23 +588,22 @@ public class PilihUniversitas extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(160, 160, 160)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(67, 67, 67)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton2)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(171, 171, 171))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -585,10 +618,11 @@ public class PilihUniversitas extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -620,6 +654,7 @@ public class PilihUniversitas extends javax.swing.JFrame {
 
     private void universitas2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_universitas2ActionPerformed
         // TODO add your handling code here:
+        jurusan2.removeAllItems();
         queryJurusan("universitas2");
     }//GEN-LAST:event_universitas2ActionPerformed
 
@@ -640,20 +675,21 @@ public class PilihUniversitas extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PilihUniversitas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PilihUniversitasJurusan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PilihUniversitas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PilihUniversitasJurusan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PilihUniversitas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PilihUniversitasJurusan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PilihUniversitas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PilihUniversitasJurusan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PilihUniversitas().setVisible(true);
+                new PilihUniversitasJurusan().setVisible(true);
             }
         });
     }

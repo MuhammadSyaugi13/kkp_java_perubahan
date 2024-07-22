@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import koneksi.Koneksi;
 import Autentifikasi.login;
-import Dashboard.MenuGuru;
+import Dashboard.MenuWalikelas;
 
 /**
  *
@@ -425,7 +425,7 @@ public class dataSiswa extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        MenuGuru menuGuru = new MenuGuru();
+        MenuWalikelas menuGuru = new MenuWalikelas();
         menuGuru.setVisible(true);
         this.dispose();
         return;

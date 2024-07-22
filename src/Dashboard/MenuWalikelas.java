@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import Autentifikasi.login;
 import Guru.dataSiswa;
 import Guru.InputMapelSiswa;
+import Walikelas.PilihMapelSiswa;
 
 import Administrasi.dataJurusan;
 import java.sql.Connection;
@@ -23,12 +24,12 @@ import net.sf.jasperreports.view.JasperViewer;
  *
  * @author mosyq
  */
-public class MenuGuru extends javax.swing.JFrame {
+public class MenuWalikelas extends javax.swing.JFrame {
 
     /**
      * Creates new form MenuSiswa
      */
-    public MenuGuru() {
+    public MenuWalikelas() {
         initComponents();
     }
 
@@ -282,8 +283,8 @@ public class MenuGuru extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        InputMapelSiswa InputMapelSiswa = new InputMapelSiswa();
-        InputMapelSiswa.setVisible(true);
+        PilihMapelSiswa pilihMapelSiswa = new PilihMapelSiswa();
+        pilihMapelSiswa.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -304,14 +305,18 @@ public class MenuGuru extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuGuru.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuWalikelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuGuru.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuWalikelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuGuru.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuWalikelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuGuru.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuWalikelas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -320,7 +325,7 @@ public class MenuGuru extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuGuru().setVisible(true);
+                new MenuWalikelas().setVisible(true);
             }
         });
     }

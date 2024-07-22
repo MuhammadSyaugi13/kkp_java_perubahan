@@ -49,33 +49,33 @@ public class dataUniversitasJurusan extends javax.swing.JFrame {
     }
     
     
-    public void dataTableUniversitas() {
-        Object[] Baris = {"No", "Id", "Universitas", "Kuota"};
-        tabelModelUniversitas = new DefaultTableModel(null, Baris);
-        tabelUniversitas.setModel(tabelModelUniversitas);
-        
-        //hapus kolom id agar tidak tampil tetapi bisa mengambil data id ketika barik di klik
-        tabelUniversitas.removeColumn(tabelUniversitas.getColumnModel().getColumn(1));
+        public void dataTableUniversitas() {
+            Object[] Baris = {"No", "Id", "Universitas", "Kuota"};
+            tabelModelUniversitas = new DefaultTableModel(null, Baris);
+            tabelUniversitas.setModel(tabelModelUniversitas);
 
-        String sql = "select * from universitas";
-        try {
-            java.sql.Statement stat = conn.createStatement();
-            ResultSet hasil = stat.executeQuery(sql);
-            Integer no = 1;
-            while (hasil.next()) {
-                String nama = hasil.getString("nama");
-                String kuota = hasil.getString("kuota");
-                String nomor = no.toString();
-                Integer id_universitas = hasil.getInt("id");
-                String[] data = {nomor, id_universitas.toString(), nama, kuota};
-                tabelModelUniversitas.addRow(data);
-                no++;
+            //hapus kolom id agar tidak tampil tetapi bisa mengambil data id ketika barik di klik
+            tabelUniversitas.removeColumn(tabelUniversitas.getColumnModel().getColumn(1));
+
+            String sql = "select * from universitas";
+            try {
+                java.sql.Statement stat = conn.createStatement();
+                ResultSet hasil = stat.executeQuery(sql);
+                Integer no = 1;
+                while (hasil.next()) {
+                    String nama = hasil.getString("nama");
+                    String kuota = hasil.getString("kuota");
+                    String nomor = no.toString();
+                    Integer id_universitas = hasil.getInt("id");
+                    String[] data = {nomor, id_universitas.toString(), nama, kuota};
+                    tabelModelUniversitas.addRow(data);
+                    no++;
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Gagal mengabil database: " + e);
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Gagal mengabil database: " + e);
         }
-    }
-    
+
     //simpan jurusan
     private void simpanUniversitas(){
         try{
@@ -477,21 +477,22 @@ public class dataUniversitasJurusan extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(174, 174, 174)
+                        .addGap(135, 135, 135)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1))
-                        .addGap(110, 110, 110)
+                        .addGap(61, 61, 61)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(252, 252, 252))
+                .addGap(42, 42, 42))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed

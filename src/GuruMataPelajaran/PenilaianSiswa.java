@@ -41,6 +41,7 @@ public class PenilaianSiswa extends javax.swing.JFrame {
         
         /* mengabil data mata pelajaran guru */
         String sqlGetPelajaran = "select mata_pelajaran from guru_mata_pelajaran where user_id=? limit 1";
+        System.out.println(id_user_login);
         
         try{
             PreparedStatement stat = conn.prepareStatement(sqlGetPelajaran);
@@ -55,22 +56,24 @@ public class PenilaianSiswa extends javax.swing.JFrame {
             mata_pelajaran.setEditable(false);
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Gagal mengabil database untuk tabel guru_mata_pelajaran : " + e);
-            System.out.println(e);
+            System.out.println("Gagal mengabil database untuk tabel guru_mata_pelajaran : " + e.getMessage());
+            System.out.println("Gagal mengabil database untuk tabel guru_mata_pelajaran : " + e.getCause());
+
         }
         
         /* ./ mengabil data mata pelajaran guru */
         
         /* mengabil data kelas guru */
         JSONParser parser = new JSONParser();
-        String sqlGetKelas = "select kelas from guru_mata_pelajaran where id=? limit 1";
+        String sqlGetKelas = "select kelas from guru_mata_pelajaran where user_id=? limit 1";
         
         try{
             PreparedStatement stat = conn.prepareStatement(sqlGetKelas);
-//            stat.setInt(1, id_user_login);
-            stat.setInt(1, 5);
-            ResultSet hasil = stat.executeQuery();
-            hasil.next();
-            String daftarKelas = hasil.getString("kelas");
+            stat.setInt(1, id_user_login);
+//            stat.setInt(1, 5);
+            ResultSet hasilKelas = stat.executeQuery();
+            hasilKelas.next();
+            String daftarKelas = hasilKelas.getString("kelas");
             
             System.out.println(daftarKelas);
             
@@ -86,7 +89,7 @@ public class PenilaianSiswa extends javax.swing.JFrame {
 //            mata_pelajaran.setEditable(false);
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Gagal mengabil database untuk tabel guru_mata_pelajaran : " + e);
-            System.out.println(e);
+            System.out.println("Gagal mengabil kelas untuk tabel guru_mata_pelajaran : " + e);
         }
         
         /* ./ mengabil data kelas guru */
