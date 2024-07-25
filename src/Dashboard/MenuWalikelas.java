@@ -174,7 +174,7 @@ public class MenuWalikelas extends javax.swing.JFrame {
 
         jButton7.setBackground(new java.awt.Color(153, 255, 153));
         jButton7.setFont(new java.awt.Font("Liberation Sans", 1, 20)); // NOI18N
-        jButton7.setText("Laporan Pilihan Mapel");
+        jButton7.setText("Laporan Mapel Pilihan Siswa");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -285,8 +285,9 @@ public class MenuWalikelas extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
             Connection conn = new Koneksi().connect();
-            String report_path = "src/Report/reportPilihanMapel.jasper";
+            String report_path = "src/Report/Walikelas/reportMapelPilihanSiswa.jasper";
             HashMap<String,Object> parameters = new HashMap<>();
+            parameters.put("kelas", kelas);
             JasperPrint print = JasperFillManager.fillReport(report_path, parameters, conn);
             JasperViewer viewer = new JasperViewer(print, false);
             viewer.setVisible(true);
