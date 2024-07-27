@@ -47,7 +47,6 @@ public class MenuWalikelas extends javax.swing.JFrame {
     
     private void getKelas(){
     
-        JOptionPane.showMessageDialog(null, id_user_login);
         String sqlKelas = "select * from walikelas where user_id="+id_user_login;
         
         try{
@@ -300,8 +299,9 @@ public class MenuWalikelas extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
             Connection conn = new Koneksi().connect();
-            String report_path = "src/Report/reportPilihanUniversitas.jasper";
+            String report_path = "src/Report/Walikelas/reportPilihanUniversitasJurusan.jasper";
             HashMap<String,Object> parameters = new HashMap<>();
+            parameters.put("kelas", kelas);
             JasperPrint print = JasperFillManager.fillReport(report_path, parameters, conn);
             JasperViewer viewer = new JasperViewer(print, false);
             viewer.setVisible(true);

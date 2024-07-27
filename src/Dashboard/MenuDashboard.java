@@ -284,7 +284,7 @@ public class MenuDashboard extends javax.swing.JFrame {
 //        JOptionPane.showMessageDialog(null, "gagal mengambil data");
         try{
             Connection conn = new Koneksi().connect();
-            String report_path = "src/Report/reportSiswa.jasper";
+            String report_path = "src/Report/Admin/reportDaftarSiswa.jasper";
             HashMap<String,Object> parameters = new HashMap<>();
             JasperPrint print = JasperFillManager.fillReport(report_path, parameters, conn);
             JasperViewer viewer = new JasperViewer(print, false);
@@ -311,7 +311,7 @@ public class MenuDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
             Connection conn = new Koneksi().connect();
-            String report_path = "src/Report/TestUser.jasper";
+            String report_path = "src/Report/Admin/reportMataPelajaranSiswa.jasper";
             HashMap<String,Object> parameters = new HashMap<>();
             JasperPrint print = JasperFillManager.fillReport(report_path, parameters, conn);
             JasperViewer viewer = new JasperViewer(print, false);

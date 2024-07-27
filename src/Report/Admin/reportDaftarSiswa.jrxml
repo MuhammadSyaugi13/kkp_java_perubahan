@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6b070e88-5c4d-4cdf-982a-69deeb0fa057">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="31"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+nis as NIS,
+nama as Nama,
+kelas as Kelas,
+alamat as Alamat
+FROM siswa]]>
+	</queryString>
+	<field name="NIS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Nama" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Kelas" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Alamat" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="205" splitType="Stretch">
+			<staticText>
+				<reportElement x="198" y="59" width="564" height="45" uuid="d9235dd0-9da4-4f9e-8305-d92a117686a0"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Jl. Raya INKOPAD, Desa Kalisuren, Kecamatan Bojong Gede, Kabupaten Bogor, Provinsi Jawa Barat, Indonesia.]]></text>
+			</staticText>
+			<image>
+				<reportElement x="31" y="10" width="330" height="94" uuid="27abe337-7292-44e1-a90c-d1728cc230d7"/>
+				<imageExpression><![CDATA["D:\\data ogi\\kuliah\\KKP\\assets\\Logo Sekolah.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="SubTitle" x="276" y="10" width="421" height="44" forecolor="#117400" uuid="4d091700-4dec-4414-8646-3c52d284a018"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="27" isBold="true" isItalic="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[SMAIT BAITUSSALAM BOGOR]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-21" y="114" width="843" height="1" forecolor="#009933" uuid="61ea46cf-3247-49ab-8b4b-4f60e77613c4"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="143" width="799" height="49" uuid="54678239-975f-4a10-b910-56d73be7e29e"/>
+				<textElement textAlignment="Center">
+					<font size="23" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laporan Daftar Siswa]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="802" height="1" uuid="4836896a-7b2b-4ffc-954c-8aa679271e05"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="1" y="0" width="199" height="15" forecolor="#000000" uuid="de8f848a-8434-4fdb-8d78-b9d96ef4d648"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[NIS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="200" y="0" width="200" height="15" forecolor="#000000" uuid="d2de39fb-37c0-4181-a724-197d4e80d8be"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="400" y="0" width="188" height="15" forecolor="#000000" uuid="ad966883-5bf6-4106-b958-fbf35d0bdf64"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Kelas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="602" y="0" width="200" height="15" forecolor="#000000" uuid="8cacd7d4-d969-4c31-a714-cdea4115ccd0"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Alamat]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="802" height="15" uuid="3eb4296c-14dd-40c0-ba74-9d3155ff4f1a"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="0" y="0" width="198" height="15" uuid="7e11dc50-50a9-42c8-a22a-b6d0859321bc"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{NIS}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="200" y="0" width="187" height="15" uuid="0762d3de-9b89-4109-b86d-7b965861b466"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{Nama}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="400" y="0" width="188" height="15" uuid="d8450cb0-316a-4b76-82a0-b49d91e69651"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{Kelas}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="600" y="0" width="200" height="15" uuid="a7161f6d-dbf8-46ea-a061-3fa03f9af4c9"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{Alamat}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="170" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1" uuid="c2169cfb-887e-4439-8a4f-a4f598dd9ec9"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="647" y="150" width="109" height="15" uuid="9a89eeff-3ab3-450f-9db8-92f43c4d4770"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[(Kepala Sekolah)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="635" y="134" width="128" height="16" uuid="5269f992-49cc-4cc4-8ea0-2668c3465375"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Abdul Hakim S.Sos I., M.Pd.]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="687" y="38" width="100" height="20" uuid="237c26fa-1077-4173-a4dd-518d6e5b7f92"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="650" y="38" width="37" height="20" uuid="7bcd9464-b77c-4fb3-912e-42c0d9200862"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Bogor, ]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="843" height="24" forecolor="#D0B48E" backcolor="#FFFFFF" uuid="ae3b0d6b-82a2-493f-8afa-b80b2a1d862a"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="783" y="1" width="40" height="20" forecolor="#000000" uuid="302bb9c2-f791-4d67-b377-1d21a1570d86"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
