@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fa37134e-6fd7-4fe4-ae45-26df29730792">
+	<property name="ireport.zoom" value="1.3310000000000006"/>
+	<property name="ireport.x" value="238"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[-- First, create a derived table to assign row numbers
+SELECT
+    u.id AS user_id,
+		u.nis as NIS,
+    u.nama AS "Nama Siswa",
+		u.kelas,
+		MAX(CASE WHEN row_num = 1 THEN nama_univ ELSE NULL END) AS "Pilihan Univ. 1",
+		MAX(CASE WHEN row_num = 1 THEN nama_jurusan ELSE NULL END) AS "Pilihan Jurusan 1",
+		MAX(CASE WHEN row_num = 2 THEN nama_univ ELSE NULL END) AS "Pilihan Univ. 2",
+		MAX(CASE WHEN row_num = 2 THEN nama_jurusan ELSE NULL END) AS "Pilihan Jurusan 2"
+FROM
+    siswa u
+LEFT JOIN (
+    SELECT
+        id_siswa,
+        pilihan_universitas.id_universitas,
+				universitas.nama AS nama_univ,
+				jurusan.jurusan AS nama_jurusan,
+        id_jurusan,
+        @row_number := IF(@prev_user_id = id_siswa, @row_number + 1, 1) AS row_num,
+        @prev_user_id := id_siswa
+    FROM
+        pilihan_universitas
+				LEFT JOIN universitas ON universitas.id=pilihan_universitas.id_universitas
+				LEFT JOIN jurusan ON jurusan.id=pilihan_universitas.id_jurusan,
+				
+				
+        (SELECT @row_number := 0, @prev_user_id := NULL) AS vars
+    ORDER BY
+        id_siswa, pilihan_universitas.id
+) AS ud ON u.user_id = ud.id_siswa
+GROUP BY
+    u.user_id, u.nama
+ORDER BY
+    u.kelas, u.nama;]]>
+	</queryString>
+	<field name="NIS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Nama Siswa" class="java.lang.String"/>
+	<field name="kelas" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Pilihan Univ. 1" class="java.lang.String"/>
+	<field name="Pilihan Jurusan 1" class="java.lang.String"/>
+	<field name="Pilihan Univ. 2" class="java.lang.String"/>
+	<field name="Pilihan Jurusan 2" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="122" splitType="Stretch">
+			<staticText>
+				<reportElement x="175" y="44" width="626" height="22" uuid="dc710e5e-9b6c-418b-a7f2-2109d11e9438"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Jl. Raya INKOPAD, Desa Kalisuren, Kecamatan Bojong Gede, Kabupaten Bogor, Provinsi Jawa Barat, Indonesia.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="175" y="10" width="626" height="32" forecolor="#117400" uuid="d627092d-9a4a-4132-932d-b7253e5f3667"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="24" isBold="true" isItalic="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[SMAIT BAITUSSALAM BOGOR]]></text>
+			</staticText>
+			<image>
+				<reportElement x="39" y="0" width="303" height="83" uuid="c5711904-84aa-41c6-9f70-8e86cf4cb801"/>
+				<imageExpression><![CDATA["D:\\data ogi\\kuliah\\KKP\\assets\\Logo Sekolah.jpg"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement mode="Transparent" x="-23" y="97" width="843" height="3" forecolor="#009900" backcolor="#009900" uuid="d162815f-897a-4a77-9dd8-783a96b838b1"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="802" height="1" uuid="75562dc4-ba9d-43b3-a5a1-b08d69c3307f"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="114" height="15" forecolor="#736343" uuid="013988b1-bf5c-48da-a649-6dc37b6e6efd"/>
+				<text><![CDATA[NIS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="114" y="0" width="114" height="15" forecolor="#736343" uuid="3adc7127-01a8-4785-b699-9a9dba07eb6b"/>
+				<text><![CDATA[Nama Siswa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="228" y="0" width="114" height="15" forecolor="#736343" uuid="c75d73d8-d2a3-41d5-a636-6a2970b295b8"/>
+				<text><![CDATA[kelas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="342" y="0" width="102" height="15" forecolor="#736343" uuid="5337ecee-90ff-467f-ad3c-a95c202a9a7a"/>
+				<text><![CDATA[Pilihan Univ. 1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="452" y="0" width="114" height="15" forecolor="#736343" uuid="b9b0b491-b3e2-4087-aa75-d95e4310982a"/>
+				<text><![CDATA[Pilihan Jurusan 1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="570" y="0" width="101" height="15" forecolor="#736343" uuid="7a5a0171-4f1e-4cf7-9d0a-f09587a7a54f"/>
+				<text><![CDATA[Pilihan Univ. 2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="684" y="0" width="104" height="15" forecolor="#736343" uuid="bb972f0c-7ee2-4160-ba1a-4e456f8078dd"/>
+				<text><![CDATA[Pilihan Jurusan 2]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="802" height="15" uuid="f4a8ccad-96ff-48a0-b9e3-61c521c8db85"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="0" y="0" width="114" height="15" uuid="11efe9ef-1c29-4529-be2f-7cb4eacbc09b"/>
+					<textFieldExpression><![CDATA[$F{NIS}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="114" y="0" width="114" height="15" uuid="271e71ce-9727-4de7-b3e1-b3955bc51867"/>
+					<textFieldExpression><![CDATA[$F{Nama Siswa}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="228" y="0" width="114" height="15" uuid="8ed97ca8-417f-45fc-9d2a-7395542e3157"/>
+					<textFieldExpression><![CDATA[$F{kelas}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="342" y="0" width="102" height="15" uuid="75dc346c-fbb5-403c-a87f-0eb71c83c027"/>
+					<textFieldExpression><![CDATA[$F{Pilihan Univ. 1} == null ? "-" : $F{Pilihan Univ. 1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="452" y="0" width="114" height="15" uuid="4da84299-7229-4ee1-9236-9b3db564f1a6"/>
+					<textFieldExpression><![CDATA[$F{Pilihan Jurusan 1} == null ? "-" : $F{Pilihan Jurusan 1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="570" y="0" width="101" height="15" uuid="c01cf896-6171-4ddf-b744-77bc43600e3d"/>
+					<textFieldExpression><![CDATA[$F{Pilihan Univ. 2} == null ? "-" : $F{Pilihan Univ. 2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="684" y="0" width="104" height="15" uuid="5b4c6c75-6224-4187-b959-4e00c60ed8c9"/>
+					<textFieldExpression><![CDATA[$F{Pilihan Jurusan 2} == null ? "-" : $F{Pilihan Univ. 2}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="129" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1" uuid="d81c125b-041f-4950-a8b4-098be9b81883"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="656" y="109" width="109" height="20" uuid="17a57132-e601-4f14-9a4c-f3c4441a0d7d"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[(Kepala Sekolah)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="656" y="95" width="109" height="20" uuid="b336db77-1ec2-4d61-a693-05913907fa2f"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Abdul Hakim S.Pd.i]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="664" y="4" width="37" height="20" uuid="c158dc0f-6aa1-4912-966f-046856caa62c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Bogor, ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="702" y="4" width="100" height="20" uuid="251e5514-cc9b-4084-8faf-b97a8d7f16da"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="843" height="24" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="b7f9ac13-6f97-4c27-b665-60b591746928"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="793" y="0" width="16" height="20" forecolor="#000000" uuid="19395131-7274-4f27-a115-a6950e6f92aa"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

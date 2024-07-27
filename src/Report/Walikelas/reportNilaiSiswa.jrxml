@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8bcce4a1-1e0e-4b27-9630-9a90c9a72e7e">
 	<property name="ireport.zoom" value="1.2100000000000009"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="132"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
@@ -297,9 +297,9 @@ WHERE siswa.kelas=$P{kelas}]]>
 				<text><![CDATA[Abdul Hakim S.Pd.i]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="661" y="0" width="37" height="20" uuid="d4132db3-9344-4ac7-931b-f483249d3ac6"/>
+				<reportElement x="660" y="0" width="37" height="20" uuid="d4132db3-9344-4ac7-931b-f483249d3ac6"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<text><![CDATA[Jakarta, ]]></text>
+				<text><![CDATA[Bogor, ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="652" y="105" width="109" height="20" uuid="14324cbe-4e18-4ceb-bc8e-5aaa7d246811"/>
