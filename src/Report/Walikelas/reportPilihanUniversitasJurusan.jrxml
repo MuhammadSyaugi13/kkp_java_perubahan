@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fa37134e-6fd7-4fe4-ae45-26df29730792">
 	<property name="ireport.zoom" value="1.3310000000000006"/>
-	<property name="ireport.x" value="238"/>
+	<property name="ireport.x" value="29"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
@@ -67,7 +67,7 @@ ORDER BY
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="122" splitType="Stretch">
+		<band height="171" splitType="Stretch">
 			<staticText>
 				<reportElement x="175" y="44" width="626" height="22" uuid="dc710e5e-9b6c-418b-a7f2-2109d11e9438"/>
 				<textElement textAlignment="Center">
@@ -89,6 +89,13 @@ ORDER BY
 			<line>
 				<reportElement mode="Transparent" x="-23" y="97" width="843" height="3" forecolor="#009900" backcolor="#009900" uuid="d162815f-897a-4a77-9dd8-783a96b838b1"/>
 			</line>
+			<staticText>
+				<reportElement x="0" y="115" width="801" height="38" uuid="135a5801-3545-4386-a9f7-34981a1d558c"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laporan Minat Mata Pelajaran Siswa]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>

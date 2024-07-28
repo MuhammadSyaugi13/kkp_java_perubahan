@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8bcce4a1-1e0e-4b27-9630-9a90c9a72e7e">
 	<property name="ireport.zoom" value="1.2100000000000009"/>
-	<property name="ireport.x" value="132"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="28"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -56,7 +56,7 @@ WHERE siswa.kelas=$P{kelas}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="136" splitType="Stretch">
+		<band height="214" splitType="Stretch">
 			<staticText>
 				<reportElement style="SubTitle" x="128" y="15" width="674" height="32" forecolor="#117400" uuid="3fca1c7a-0c47-47e9-8157-cfa4e9b0d166"/>
 				<textElement textAlignment="Center">
@@ -72,7 +72,7 @@ WHERE siswa.kelas=$P{kelas}]]>
 				<reportElement mode="Transparent" x="-19" y="91" width="843" height="3" forecolor="#009900" backcolor="#009900" uuid="c9530dfd-65ad-40f1-9876-2d220d0c67e9"/>
 			</line>
 			<staticText>
-				<reportElement style="Column header" x="752" y="93" width="48" height="15" forecolor="#736343" uuid="bebad2c5-91dd-41ca-8131-4d2b3b33c291"/>
+				<reportElement style="Column header" x="752" y="171" width="48" height="15" forecolor="#736343" uuid="bebad2c5-91dd-41ca-8131-4d2b3b33c291"/>
 				<box leftPadding="10"/>
 				<text><![CDATA[pjok]]></text>
 			</staticText>
@@ -84,12 +84,12 @@ WHERE siswa.kelas=$P{kelas}]]>
 				<text><![CDATA[Jl. Raya INKOPAD, Desa Kalisuren, Kecamatan Bojong Gede, Kabupaten Bogor, Provinsi Jawa Barat, Indonesia.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="681" y="93" width="71" height="15" forecolor="#736343" uuid="4d11cedd-cadf-41e5-84e1-941885d76e5a"/>
+				<reportElement style="Column header" x="681" y="171" width="71" height="15" forecolor="#736343" uuid="4d11cedd-cadf-41e5-84e1-941885d76e5a"/>
 				<box leftPadding="10"/>
 				<text><![CDATA[kesenian]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="265" y="93" width="57" height="15" forecolor="#736343" uuid="cad71850-4ecf-419c-bdf2-0904e0cfd77b"/>
+				<reportElement style="Column header" x="265" y="171" width="57" height="15" forecolor="#736343" uuid="cad71850-4ecf-419c-bdf2-0904e0cfd77b"/>
 				<box leftPadding="10"/>
 				<textElement>
 					<font size="12"/>
@@ -98,7 +98,7 @@ WHERE siswa.kelas=$P{kelas}]]>
 				<text><![CDATA[pabp]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="322" y="93" width="48" height="15" forecolor="#736343" uuid="00c51028-b0c2-4a2c-a3c3-7fbb965f54f2"/>
+				<reportElement style="Column header" x="322" y="171" width="48" height="15" forecolor="#736343" uuid="00c51028-b0c2-4a2c-a3c3-7fbb965f54f2"/>
 				<box leftPadding="10"/>
 				<textElement>
 					<font size="12"/>
@@ -107,7 +107,7 @@ WHERE siswa.kelas=$P{kelas}]]>
 				<text><![CDATA[ppkn]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="370" y="93" width="84" height="15" forecolor="#736343" uuid="d496836a-835c-4d48-ac2c-188d59858ff9"/>
+				<reportElement style="Column header" x="370" y="171" width="84" height="15" forecolor="#736343" uuid="d496836a-835c-4d48-ac2c-188d59858ff9"/>
 				<box leftPadding="10"/>
 				<textElement>
 					<font size="12"/>
@@ -116,22 +116,22 @@ WHERE siswa.kelas=$P{kelas}]]>
 				<text><![CDATA[b_indonesia]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="454" y="93" width="46" height="15" forecolor="#736343" uuid="22d9c937-0f5c-4a2e-8698-fe328c069e5c"/>
+				<reportElement style="Column header" x="454" y="171" width="46" height="15" forecolor="#736343" uuid="22d9c937-0f5c-4a2e-8698-fe328c069e5c"/>
 				<box leftPadding="10"/>
 				<text><![CDATA[ipa]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="500" y="93" width="45" height="15" forecolor="#736343" uuid="597fa826-8e27-487d-b0df-0df615ebe895"/>
+				<reportElement style="Column header" x="500" y="171" width="45" height="15" forecolor="#736343" uuid="597fa826-8e27-487d-b0df-0df615ebe895"/>
 				<box leftPadding="10"/>
 				<text><![CDATA[mtk]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="545" y="93" width="70" height="15" forecolor="#736343" uuid="8e7f8ff0-8ed4-4b30-b353-44e3d6cdeeb5"/>
+				<reportElement style="Column header" x="545" y="171" width="70" height="15" forecolor="#736343" uuid="8e7f8ff0-8ed4-4b30-b353-44e3d6cdeeb5"/>
 				<box leftPadding="10"/>
 				<text><![CDATA[sejarah]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="615" y="93" width="66" height="15" forecolor="#736343" uuid="69f51fd9-27ce-4b14-ad37-059deded869b"/>
+				<reportElement style="Column header" x="615" y="171" width="66" height="15" forecolor="#736343" uuid="69f51fd9-27ce-4b14-ad37-059deded869b"/>
 				<box leftPadding="10"/>
 				<text><![CDATA[pai]]></text>
 			</staticText>
@@ -144,12 +144,19 @@ WHERE siswa.kelas=$P{kelas}]]>
 				<text><![CDATA[nama]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="128" y="94" width="137" height="15" forecolor="#736343" uuid="8ab0be2e-485f-4317-b90c-ae160f21fd63"/>
+				<reportElement style="Column header" x="128" y="172" width="137" height="15" forecolor="#736343" uuid="8ab0be2e-485f-4317-b90c-ae160f21fd63"/>
 				<textElement textAlignment="Center">
 					<font size="12"/>
 					<paragraph tabStopWidth="70"/>
 				</textElement>
 				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="105" width="798" height="38" uuid="9ff647ba-feca-4499-8cfe-d768be183d3c"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laporan Nilai Siswa]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -279,7 +286,7 @@ WHERE siswa.kelas=$P{kelas}]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="125" splitType="Stretch">
+		<band height="154" splitType="Stretch">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="-37" width="805" height="1" uuid="6319306c-64ea-4e02-a1f0-14ffd6580c5f"/>
 				<graphicElement>
@@ -292,19 +299,39 @@ WHERE siswa.kelas=$P{kelas}]]>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="652" y="91" width="109" height="20" uuid="27b589e4-8be6-419a-82c7-96891e04dbd7"/>
+				<reportElement x="44" y="117" width="109" height="20" uuid="27b589e4-8be6-419a-82c7-96891e04dbd7"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Abdul Hakim S.Pd.i]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="660" y="0" width="37" height="20" uuid="d4132db3-9344-4ac7-931b-f483249d3ac6"/>
+				<reportElement x="610" y="0" width="83" height="20" uuid="d4132db3-9344-4ac7-931b-f483249d3ac6"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<text><![CDATA[Bogor, ]]></text>
+				<text><![CDATA[Bogor,  Senin]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="652" y="105" width="109" height="20" uuid="14324cbe-4e18-4ceb-bc8e-5aaa7d246811"/>
+				<reportElement x="44" y="131" width="109" height="20" uuid="14324cbe-4e18-4ceb-bc8e-5aaa7d246811"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[(Kepala Sekolah)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="647" y="119" width="109" height="20" uuid="7bc72aff-e4ba-4565-bde0-467bb921fee8"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Rahmat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="647" y="133" width="109" height="20" uuid="b75461e1-774c-4a1d-8de0-e3baa61a68d1"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[(Walikelas)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="645" y="26" width="109" height="20" uuid="9d149eeb-62d1-4162-8aef-d28face86f27"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Menyetujui]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="25" width="109" height="20" uuid="debd1630-bcc0-40ec-aae2-82d9993ecec4"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Mengetahui]]></text>
 			</staticText>
 		</band>
 	</columnFooter>
